@@ -1,3 +1,6 @@
+import { createGlobalStyle } from "styled-components";
+
+const GlobalStyles = createGlobalStyle`
 /*
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -194,3 +197,7 @@ FOR DARK MODE
 --image-grayscale: 10%;
 --image-opacity: 90%;
 */
+
+`;
+
+export default GlobalStyles;
