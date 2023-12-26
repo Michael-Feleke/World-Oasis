@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { useForm } from "react-hook-form";
 
 import Input from "../../ui/Input";
@@ -11,8 +10,13 @@ import { createCabin } from "../../services/apiCabins";
 import toast from "react-hot-toast";
 import FormRow from "../../ui/FormRow";
 
-function CreateCabinForm() {
-  const { register, handleSubmit, reset, getValues, formState } = useForm();
+function CreateCabinForm({ cabinToEdit = {} }) {
+  const { id: editId, ...editValues } = cabinToEdit;
+  const isEditSession = Boolean(editId);
+
+  const { register, handleSubmit, reset, getValues, formState } = useForm({
+    defaultValues: isEditSession ? editValues : {},
+  });
   const { errors } = formState;
 
   const queryClient = useQueryClient();
@@ -108,12 +112,12 @@ function CreateCabinForm() {
         />
       </FormRow>
 
-      <FormRow label="Cabin photo">
+      <FormRow label="Cabin photo" error={errors?.image?.message}>
         <FileInput
           id="image"
           accept="image/*"
           {...register("image", {
-            required: "This field is required",
+            required: isEditSession ? false : "This field is required",
           })}
         />
       </FormRow>
@@ -124,7 +128,13 @@ function CreateCabinForm() {
           Cancel
         </Button>
         <Button disabled={isCreating}>
-          {isCreating ? `Adding ...` : `Add a cabin`}
+          {isCreating
+            ? isEditSession
+              ? `Editing ...`
+              : `Adding ...`
+            : isEditSession
+            ? "Edit a cabin"
+            : `Add a cabin`}
         </Button>
       </FormRow>
     </Form>
