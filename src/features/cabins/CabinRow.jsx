@@ -3,6 +3,7 @@ import { formatCurrency } from "../../utils/helpers";
 import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
 import { useDeleteCabin } from "./useDeleteCabin";
+import { useCreateCabin } from "./useCreateCabin";
 
 const TableRow = styled.div`
   display: grid;
@@ -44,9 +45,25 @@ const Discount = styled.div`
 `;
 
 function CabinRow({ cabin }) {
-  const { id, name, maxCapacity, regularPrice, discount, image } = cabin;
+  const { id, name, maxCapacity, description, regularPrice, discount, image } =
+    cabin;
   const [showForm, setShowFrom] = useState(false);
   const { isDeleting, deleteCabin } = useDeleteCabin();
+
+  const { isCreating, createCabin } = useCreateCabin();
+
+  function handleDuplicate() {
+    const newCabin = {
+      name: `Copy of ${name}`,
+      maxCapacity,
+      regularPrice,
+      discount,
+      image,
+      description,
+    };
+
+    createCabin(newCabin);
+  }
 
   return (
     <>
@@ -61,6 +78,9 @@ function CabinRow({ cabin }) {
           <span>-</span>
         )}
         <div>
+          <button disabled={isCreating} onClick={handleDuplicate}>
+            Duplicate
+          </button>
           <button onClick={() => setShowFrom((curShowForm) => !curShowForm)}>
             {showForm ? "Close" : "Edit"}
           </button>

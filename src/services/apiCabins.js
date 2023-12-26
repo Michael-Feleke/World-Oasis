@@ -31,6 +31,7 @@ export async function createCabin(newCabin, id) {
 
   const { data, error } = await query.select().single();
   //2)uploading image
+  if (hasImagePath) return data;
   if (error) {
     console.error(error);
     throw new Error(`Cabins couldn't be ${id ? "edited" : "created"}`);
