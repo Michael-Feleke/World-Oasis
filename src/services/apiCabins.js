@@ -11,24 +11,30 @@ export async function getCabins() {
   return data;
 }
 
-export async function createCabin(newCabin) {
+export async function createCabin(newCabin, id) {
+  const hasImagePath = newCabin.image?.startsWith?.(supabaseUrl);
+
   const imageName = `${Math.random()}-${newCabin.image.name}`.replaceAll(
     "/",
     ""
   );
 
-  const imagePath = `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
-  //1)create cabin
-  const { data, error } = await supabase
-    .from("cabins")
-    .insert([{ ...newCabin, image: imagePath }]);
+  const imagePath = hasImagePath
+    ? newCabin.image
+    : `${supabaseUrl}/storage/v1/object/public/cabin-images/${imageName}`;
+  //1 a)create cabin
+  let query = supabase.from("cabins");
+  if (!id) query = query.insert([{ ...newCabin, image: imagePath }]);
 
+  //1 b) edit cabin
+  if (id) query = query.update({ ...newCabin, image: imagePath }).eq("id", id);
+
+  const { data, error } = await query.select().single();
+  //2)uploading image
   if (error) {
     console.error(error);
-    throw new Error(`Cabins couldn't be created`);
+    throw new Error(`Cabins couldn't be ${id ? "edited" : "created"}`);
   }
-
-  //2)uploading image
 
   const { error: storageError } = await supabase.storage
     .from("cabin-images")
@@ -45,8 +51,6 @@ export async function createCabin(newCabin) {
 
   return data;
 }
-
-export async function editCabin() {}
 
 export async function deleteCabin(id) {
   const { data, error } = await supabase.from("cabins").delete().eq("id", id);
