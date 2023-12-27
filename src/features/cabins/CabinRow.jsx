@@ -1,9 +1,9 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
-import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm";
-import { useDeleteCabin } from "./useDeleteCabin";
 import { useCreateCabin } from "./useCreateCabin";
+import Modal from "../../ui/Modal";
+import { useDeleteCabin } from "./useDeleteCabin";
 
 const TableRow = styled.div`
   display: grid;
@@ -47,7 +47,6 @@ const Discount = styled.div`
 function CabinRow({ cabin }) {
   const { id, name, maxCapacity, description, regularPrice, discount, image } =
     cabin;
-  const [showForm, setShowFrom] = useState(false);
   const { isDeleting, deleteCabin } = useDeleteCabin();
 
   const { isCreating, createCabin } = useCreateCabin();
@@ -81,15 +80,20 @@ function CabinRow({ cabin }) {
           <button disabled={isCreating} onClick={handleDuplicate}>
             Duplicate
           </button>
-          <button onClick={() => setShowFrom((curShowForm) => !curShowForm)}>
-            {showForm ? "Close" : "Edit"}
-          </button>
+          <Modal>
+            <Modal.ModalButton opens="edit-form">
+              <button>Edit</button>
+            </Modal.ModalButton>
+            <Modal.Window name="edit-form">
+              <CreateCabinForm cabinToEdit={cabin} />
+            </Modal.Window>
+          </Modal>
+
           <button onClick={() => deleteCabin(id)} disabled={isDeleting}>
             {isDeleting ? `Deleting ...` : `Delete`}
           </button>
         </div>
       </TableRow>
-      {showForm && <CreateCabinForm cabinToEdit={cabin} />}
     </>
   );
 }

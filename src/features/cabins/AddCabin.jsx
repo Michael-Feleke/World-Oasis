@@ -4,21 +4,16 @@ import CreateCabinForm from "./CreateCabinForm";
 
 function AddCabin() {
   return (
-    <Modal>
-      <Modal.ModalButton opens="cabin-form">
-        <Button>Add new cabin</Button>
-      </Modal.ModalButton>
-      <Modal.Window name="cabin-form">
-        <CreateCabinForm />
-      </Modal.Window>
-
-      {/* <Modal.Button opens="table">
-        <Button>Shot table</Button>
-      </Modal.Button>
-      <Modal.Window name="table">
-        <CreateCabinForm />
-      </Modal.Window> */}
-    </Modal>
+    <div>
+      <Modal>
+        <Modal.ModalButton opens="cabin-form">
+          <Button>Add new cabin</Button>
+        </Modal.ModalButton>
+        <Modal.Window name="cabin-form">
+          <CreateCabinForm />
+        </Modal.Window>
+      </Modal>
+    </div>
   );
 }
 
