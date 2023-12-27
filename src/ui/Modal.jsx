@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
+import { useOutsideClick } from "../hooks/useOutsideClick";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -98,16 +99,8 @@ function ModalButton({ children, opens: opensWindowName }) {
 
 function Window({ name, children }) {
   const { openName, close } = useContext(ModalContext);
-  const ref = useRef();
 
-  useEffect(() => {
-    function handleClick(e) {
-      if (ref.current && !ref.current.contains(e.target)) close();
-    }
-
-    document.addEventListener("click", handleClick, true);
-    return () => document.removeEventListener("click", handleClick, true);
-  }, [close]);
+  const ref = useOutsideClick(close);
 
   if (name !== openName) return;
 
