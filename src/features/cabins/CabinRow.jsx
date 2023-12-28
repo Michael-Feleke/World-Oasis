@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
 import CreateCabinForm from "./CreateCabinForm";
-import { useCreateCabin } from "./useCreateCabin";
 import Modal from "../../ui/Modal";
 import { useDeleteCabin } from "./useDeleteCabin";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
 import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
+import { createCabin } from "../../services/apiCabins";
 
 const Img = styled.img`
   display: block;
@@ -40,8 +40,6 @@ function CabinRow({ cabin }) {
   const { id, name, maxCapacity, description, regularPrice, discount, image } =
     cabin;
   const { isDeleting, deleteCabin } = useDeleteCabin();
-
-  const { isCreating, createCabin } = useCreateCabin();
 
   function handleDuplicate() {
     const newCabin = {
