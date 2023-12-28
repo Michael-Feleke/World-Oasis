@@ -6,6 +6,7 @@ import Modal from "../../ui/Modal";
 import { useDeleteCabin } from "./useDeleteCabin";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
 
 const Img = styled.img`
   display: block;
@@ -89,6 +90,14 @@ function CabinRow({ cabin }) {
               />
             </Modal.Window>
           </Modal>
+          <Menus.Menu>
+            <Menus.Toggle id={id} />
+            <Menu.List id={id}>
+              <Menu.Button>Duplicate</Menu.Button>
+              <Menu.Button>Edit</Menu.Button>
+              <Menu.Button>Delete</Menu.Button>
+            </Menu.List>
+          </Menus.Menu>
         </div>
       </Table.Row>
     </>
