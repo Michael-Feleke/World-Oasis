@@ -4,7 +4,23 @@ import Filter from "../../ui/Filter";
 function CabinTableOperations() {
   return (
     <TableOperations>
-      <Filter />
+      <Filter
+        filterField="discount"
+        options={[
+          {
+            value: "all",
+            label: "all",
+          },
+          {
+            value: "no-discount",
+            label: "No discount",
+          },
+          {
+            value: "with-discount",
+            label: "With discount",
+          },
+        ]}
+      />
     </TableOperations>
   );
 }
