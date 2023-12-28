@@ -7,6 +7,7 @@ import { useDeleteCabin } from "./useDeleteCabin";
 import ConfirmDelete from "../../ui/ConfirmDelete";
 import Table from "../../ui/Table";
 import Menus from "../../ui/Menus";
+import { HiPencil, HiSquare2Stack, HiTrash } from "react-icons/hi2";
 
 const Img = styled.img`
   display: block;
@@ -93,9 +94,11 @@ function CabinRow({ cabin }) {
           <Menus.Menu>
             <Menus.Toggle id={id} />
             <Menus.List id={id}>
-              <Menus.Button>Duplicate</Menus.Button>
-              <Menus.Button>Edit</Menus.Button>
-              <Menus.Button>Delete</Menus.Button>
+              <Menus.Button icon={<HiSquare2Stack />} onClick={handleDuplicate}>
+                Duplicate
+              </Menus.Button>
+              <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+              <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
             </Menus.List>
           </Menus.Menu>
         </div>
