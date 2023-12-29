@@ -52,6 +52,7 @@ function BookingDetail() {
             Check in
           </Button>
         )}
+
         <Button variation="secondary" onClick={moveBack}>
           Back
         </Button>
