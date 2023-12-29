@@ -7,7 +7,7 @@ function useBooking() {
 
   const {
     isLoading,
-    data: booking,
+    data: booking = {},
     error,
   } = useQuery({
     queryKey: ["booking"],
