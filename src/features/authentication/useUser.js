@@ -7,7 +7,7 @@ function useUser() {
     queryKey: ["user"],
   });
 
-  return { isLoading, user };
+  return { isLoading, user, isAuthenticated: user?.role === "authenticated" };
 }
 
 export { useUser };
