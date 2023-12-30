@@ -9,7 +9,7 @@ function useLogin() {
   const { mutate: login, isLoading: isLogin } = useMutation({
     mutationFn: ({ email, password }) => loginApi({ email, password }),
     onSuccess: (user) => {
-      queryClient.setQueriesData(["user", user]);
+      queryClient.setQueryData(["user", user.user]);
       toast.success("Successfully loged in");
       navigate("/", { replace: true });
     },
