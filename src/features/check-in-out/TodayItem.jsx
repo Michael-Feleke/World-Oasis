@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Tag from "../../ui/Tag";
 
 const StyledTodayItem = styled.li`
   display: grid;
