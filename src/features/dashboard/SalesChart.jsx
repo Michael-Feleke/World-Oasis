@@ -1,24 +1,17 @@
 import styled from "styled-components";
 import DashboardBox from "./DashboardBox";
-import { useDarkMode } from "../../context/DarkModeContext";
 import Heading from "../../ui/Heading";
 import {
   Area,
   AreaChart,
   CartesianGrid,
-  DefaultTooltipContent,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
-import {
-  eachDayOfInterval,
-  format,
-  isDate,
-  isSameDay,
-  subDays,
-} from "date-fns";
+import { useDarkMode } from "../../context/DarkModeContext";
+import { eachDayOfInterval, format, isSameDay, subDays } from "date-fns";
 
 const StyledSalesChart = styled(DashboardBox)`
   grid-column: 1 / -1;
@@ -39,24 +32,14 @@ function SalesChart({ bookings, numDays }) {
   });
 
   const data = allDates.map((date) => {
-    const totalSales = bookings.reduce((acc, booking) => {
-      if (isSameDay(date, new Date(booking.created_at))) {
-        return acc + booking.totalPrice;
-      }
-      return acc;
-    }, 0);
-
-    const extrasSales = bookings.reduce((acc, booking) => {
-      if (isSameDay(date, new Date(booking.created_at))) {
-        return acc + booking.extrasPrice;
-      }
-      return acc;
-    }, 0);
-
     return {
-      label: format(date, "MM dd"),
-      totalSales,
-      extrasSales,
+      label: format(date, "MMM dd"),
+      totalSales: bookings
+        .filter((booking) => isSameDay(date, new Date(booking.created_at)))
+        .reduce((acc, cur) => acc + cur.totalPrice, 0),
+      extrasSales: bookings
+        .filter((booking) => isSameDay(date, new Date(booking.created_at)))
+        .reduce((acc, cur) => acc + cur.extrasPrice, 0),
     };
   });
 
@@ -73,20 +56,25 @@ function SalesChart({ bookings, numDays }) {
         text: "#374151",
         background: "#fff",
       };
+
   return (
     <StyledSalesChart>
-      <Heading as="h2">Sales</Heading>
+      <Heading as="h2">
+        Sales from {format(allDates.at(0), "MMM dd yyyy")} &mdash;{" "}
+        {format(allDates.at(-1), "MMM dd yyyy")}{" "}
+      </Heading>
+
       <ResponsiveContainer height={300} width="100%">
         <AreaChart data={data}>
           <XAxis
             dataKey="label"
             tick={{ fill: colors.text }}
-            tickLine={{ store: colors.text }}
+            tickLine={{ stroke: colors.text }}
           />
           <YAxis
             unit="$"
             tick={{ fill: colors.text }}
-            tickLine={{ store: colors.text }}
+            tickLine={{ stroke: colors.text }}
           />
           <CartesianGrid strokeDasharray="4" />
           <Tooltip contentStyle={{ backgroundColor: colors.background }} />
@@ -96,7 +84,7 @@ function SalesChart({ bookings, numDays }) {
             stroke={colors.totalSales.stroke}
             fill={colors.totalSales.fill}
             strokeWidth={2}
-            name="Total Sales"
+            name="Total sales"
             unit="$"
           />
           <Area
@@ -105,7 +93,7 @@ function SalesChart({ bookings, numDays }) {
             stroke={colors.extrasSales.stroke}
             fill={colors.extrasSales.fill}
             strokeWidth={2}
-            name="Total Sales"
+            name="Extras sales"
             unit="$"
           />
         </AreaChart>
