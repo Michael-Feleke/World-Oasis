@@ -12,7 +12,7 @@ import PageNotFound from "./pages/PageNotFound";
 import Users from "./pages/Users";
 
 import GlobalStyles from "./styles/GlobalStyles";
-import AppLayout from "./ui/Applayout";
+import AppLayout from "./ui/AppLayout";
 import { Toaster } from "react-hot-toast";
 import Booking from "./pages/Booking";
 import Checkin from "./pages/Checkin";
