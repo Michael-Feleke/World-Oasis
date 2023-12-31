@@ -1,3 +1,3 @@
 # The Wild Oasis
 
-Website for hotel employee to effective management of Cabins and bookings
+Website for hotel employee to effectively manage Cabins and bookings.
