@@ -18,3 +18,14 @@ const StyledTodayItem = styled.li`
 const Guest = styled.div`
   font-weight: 500;
 `;
+
+function TodayItem({ acitvity }) {
+  const { id, status, guests, numNights } = acitvity;
+  return (
+    <StyledTodayItem>
+      {status === "unconfirmed" && <Tag type="green">Arriving</Tag>}
+    </StyledTodayItem>
+  );
+}
+
+export default TodayItem;
